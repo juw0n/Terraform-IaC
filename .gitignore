@@ -1,2 +1,2 @@
-/basicConfig/.terraform
-/basicConfig/terraform.tfstate.backup
+basicConfig/.terraform
+basicConfig/terraform.tfstate.backup
