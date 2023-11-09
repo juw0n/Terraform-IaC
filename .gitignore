@@ -1,2 +1,4 @@
 basicConfig/.terraform
 basicConfig/terraform.tfstate.backup
+
+/stateFileStorage/awsBackend/.terraform
