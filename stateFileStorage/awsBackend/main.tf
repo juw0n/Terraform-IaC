@@ -1,3 +1,4 @@
+#################################################################################
 # configuring terraform provider -- run this first before creating the cloud backend
 # terraform {
 #   required_providers {
@@ -7,14 +8,16 @@
 #     }
 #   }
 # }
-# config for aws backend for statefile
+#################################################################################
+# config for aws backend for statefile using the created s3 and dynamodb
 terraform {
   backend "s3" {
-    bucket         = "juwon_terraform_statefile"
+    bucket         = "juwon-tf-bucket"
     dynamodb_table = "terraform-state-locking"
     key            = "tf/statefile/terraform.tfstate"
     region         = "us-east-1"
     encrypt        = true
+    profile        = "vscodeTerraform"
   }
   required_providers {
     aws = {
@@ -23,6 +26,7 @@ terraform {
     }
   }
 }
+
 # Configure the AWS Provider
 provider "aws" {
   region                   = "us-east-1"
