@@ -1,8 +1,51 @@
 ################################################################
-# use aws default VPC
-data "aws_vpc" "default_vpc" {
-  default = true
+# Create a vpc
+resource "aws_vpc" "webapp_vpc" {
+  cidr_blocks = "10.123.0.0/16"
+  
+  tags = {
+    Name = "webapp_vpc"
+  }
 }
+# create a subnet
+resource "aws_subnet" "webapp_public_subnet" {
+  vpc_id = aws_vpc.webapp_vpc.id
+  cidr_blocks = "10.123.1.0/24"
+  map_public_ip_on_launch = true
+  availability_zone = "us-east-1a"
+
+  tags {
+    Name = "webapp_public_subnet"
+  }
+}
+# create security group
+resource "aws_security_group" "webapp_sg" {
+  name = "dev_sg"
+  description = "dev security group"
+  vpc_id      = aws_vpc.webapp_vpc.id
+
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+
+
+
+
+
+
+
 # use aws default subnet
 data "aws_subnet" "default_subnet" {
   vpc_id = data.aws_vpc.default_vpc.id
