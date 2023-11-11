@@ -1,27 +1,3 @@
-# create an s3 bucket too store the statefile
-resource "aws_s3_bucket" "juwon_terraform_statefile" {
-  bucket        = "juwon-tf-bucket"
-  force_destroy = true
-}
-# apply server side AES256 encrption
-resource "aws_s3_bucket_server_side_encryption_configuration" "terraform_state_crypto_config" {
-  bucket = aws_s3_bucket.juwon_terraform_statefile.id
-  rule {
-    apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
-    }
-  }
-}
-# create dynamobd to lock the state file with using terraform apply
-resource "aws_dynamodb_table" "juw0n_terraform_locks" {
-  name         = "terraform-state-locking"
-  billing_mode = "PAY_PER_REQUEST"
-  hash_key     = "LockID"
-  attribute {
-    name = "LockID"
-    type = "S"
-  }
-}
 ################################################################
 # use aws default VPC
 data "aws_vpc" "default_vpc" {
@@ -65,7 +41,7 @@ resource "aws_instance" "instance_2" {
   instance_type   = "t2.micro"
   security_groups = [aws_security_group.instances.name]
   user_data       = <<-EOF
-              #!/bin/bash
+              #!/bin/bashb
               echo "This is a basic example of a web page deployed on aws EC2" > index.html
               python3 -m http.server 8080 &
               EOF
