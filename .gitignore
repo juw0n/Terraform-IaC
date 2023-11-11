@@ -2,3 +2,4 @@ basicConfig/.terraform
 basicConfig/terraform.tfstate.backup
 
 /remoteBackend/awsBackend/.terraform
+webApp/.terraform
